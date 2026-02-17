@@ -41,6 +41,8 @@ def test_hg002_smoke_pipeline(tmp_path: Path) -> None:
     assert Path(outputs["output_vcf"]).exists()
     assert Path(outputs["output_bam"]).exists()
     assert Path(outputs["output_bam_index"]).exists()
+    assert Path(outputs["phaseblock_parent_assignment"]).exists()
+    assert Path(outputs["imprinting_database_used"]).exists()
 
     rel_csvs = list((output_dir / "work" / "chr21").glob("*.csv"))
     assert rel_csvs, "expected relationship CSV output for chr21"

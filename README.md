@@ -37,7 +37,41 @@ Inside `--output-dir`:
 - `methphaser.vcf`
 - `methphaser.bam`
 - `methphaser.bam.bai`
+- `phaseblock_parent_assignment.tsv` (phaseblock-level father/mother assignment status)
 - `work/` (internal intermediate relationship/read-assignment files)
+
+## Built-in Imprinting Database
+
+MethPhaser now bundles a genome-wide imprinting BED database at:
+
+- `src/methphaser/data/imprinting_regions.hg38.bed`
+
+Current file is built from four HumanICR tracks (`known_ICR_25`,
+`putative_ICRs_35_65_final_N1488`, `ICRs_2_or_more_method_val_N1348`,
+`ICRs_2_or_more_method_N4239`) and merged into one repository dataset.
+It also includes inferred parent-of-origin methylation direction
+(`methylated_parent = maternal|paternal|unknown`) using HumanICR gamete tracks
+(`Oocyte_100`, `Sperm_with_sue_100`).
+Source links are documented in:
+
+- `src/methphaser/data/imprinting_regions.hg38.SOURCES.md`
+
+To refresh the database from source tracks:
+
+```bash
+python tools/build_imprinting_database.py
+```
+
+## Parent Assignment Logic
+
+For each phaseblock in `methphaser.vcf`, MethPhaser:
+
+1. finds overlapping directional imprinting regions (`maternal`/`paternal` methylated),
+2. measures H1/H2 methylation in those regions from `methphaser.bam`,
+3. votes whether H1 or H2 is paternal based on expected methylation direction,
+4. reports `assigned` only when evidence is decisive; otherwise reports `random`.
+
+This avoids forcing `H1=father` when directional methylation evidence is absent.
 
 ## Behavior Simplifications
 
