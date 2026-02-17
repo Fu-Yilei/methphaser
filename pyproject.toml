@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "methphaser"
+version = "0.3.0"
+description = "One-stop methylation-assisted phasing pipeline"
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [
+  {name = "Yilei Fu"},
+]
+dependencies = [
+  "pysam",
+  "pandas",
+  "scipy",
+  "tqdm",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8",
+]
+
+[project.scripts]
+methphaser = "methphaser.cli:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+markers = [
+  "integration: integration tests using local subset sequencing data",
+]

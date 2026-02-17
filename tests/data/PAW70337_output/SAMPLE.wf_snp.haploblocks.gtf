@@ -1,0 +1,6 @@
+chr21	Phasing	exon	5012610	5014036	.	+	.	gene_id "5012610"; transcript_id "5012610.1";
+chr21	Phasing	exon	5047142	5053990	.	+	.	gene_id "5047142"; transcript_id "5047142.1";
+chr21	Phasing	exon	5068630	5154647	.	+	.	gene_id "5068630"; transcript_id "5068630.1";
+chr21	Phasing	exon	5216322	5390428	.	+	.	gene_id "5216322"; transcript_id "5216322.1";
+chr21	Phasing	exon	6068657	6074639	.	+	.	gene_id "6068657"; transcript_id "6068657.1";
+chr21	Phasing	exon	6080717	6132733	.	+	.	gene_id "6080717"; transcript_id "6080717.1";
