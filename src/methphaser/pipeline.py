@@ -7,6 +7,7 @@ import subprocess
 from typing import Dict, List
 
 from .discovery import PhaseInputs, discover_phase_inputs
+from .imprinting import ParentAssignmentConfig, run_parent_assignment
 from .step1_parallel import Step1Config, run_step1
 from .step2_postprocess import Step2Config, run_step2
 
@@ -109,7 +110,15 @@ def run_pipeline(config: PipelineConfig) -> Dict[str, str]:
     merged_bam = output_dir / "methphaser.bam"
     _merge_chromosome_bams(chrom_bams, merged_bam, max(1, config.threads))
 
-    return {
+    parent_outputs = run_parent_assignment(
+        ParentAssignmentConfig(
+            output_vcf=str(output_vcf),
+            phaseblock_assignment_output=str(output_dir / "phaseblock_parent_assignment.tsv"),
+            input_bam=str(merged_bam),
+        )
+    )
+
+    outputs = {
         "output_dir": str(output_dir),
         "work_dir": str(work_dir),
         "output_vcf": str(output_vcf),
@@ -118,3 +127,5 @@ def run_pipeline(config: PipelineConfig) -> Dict[str, str]:
         "gtf_used": str(discovered.gtf),
         "vcf_used": str(discovered.vcf),
     }
+    outputs.update(parent_outputs)
+    return outputs
